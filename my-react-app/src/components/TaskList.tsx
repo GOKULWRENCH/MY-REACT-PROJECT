@@ -1,59 +1,73 @@
-import React, { useState } from 'react';
-import '../styles/TaskStyle.css';
+import React, { useState } from "react";
+import "../styles/TaskStyle.css";
 
 interface Task {
   id: number;
   title: string;
-  status: 'Pending' | 'Completed';
-  priority: 'Low' | 'Medium' | 'High';
+  status: "Pending" | "Completed";
+  priority: "Low" | "Medium" | "High";
 }
 
 const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, title: 'Complete project', status: 'Pending', priority: 'High' },
-    { id: 2, title: 'Write documentation', status: 'Completed', priority: 'Medium' },
-    { id: 3, title: 'Fix bugs', status: 'Pending', priority: 'Low' },
-    { id: 4, title: 'Team meeting', status: 'Completed', priority: 'Medium' },
-    { id: 5, title: 'Update dependencies', status: 'Pending', priority: 'Low' },
-    { id: 6, title: 'Code review', status: 'Completed', priority: 'High' },
-    { id: 7, title: 'Learning', status: 'Pending', priority: 'Low' },
-    { id: 8, title: 'Activities', status: 'Completed', priority: 'Medium' },
-    { id: 9, title: 'Knowledge Transfer', status: 'Completed', priority: 'High' },
-    { id: 9, title: 'Data Migration', status: 'Completed', priority: 'High' },
+    { id: 1, title: "Complete project", status: "Pending", priority: "High" },
+    {
+      id: 2,
+      title: "Write documentation",
+      status: "Completed",
+      priority: "Medium",
+    },
+    { id: 3, title: "Fix bugs", status: "Pending", priority: "Low" },
+    { id: 4, title: "Team meeting", status: "Completed", priority: "Medium" },
+    { id: 5, title: "Update dependencies", status: "Pending", priority: "Low" },
+    { id: 6, title: "Code review", status: "Completed", priority: "High" },
+    { id: 7, title: "Learning", status: "Pending", priority: "Low" },
+    { id: 8, title: "Activities", status: "Completed", priority: "Medium" },
+    {
+      id: 9,
+      title: "Knowledge Transfer",
+      status: "Completed",
+      priority: "High",
+    },
+    { id: 9, title: "Data Migration", status: "Completed", priority: "High" },
   ]);
 
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [statusFilter, setStatusFilter] = useState<'' | 'Pending' | 'Completed'>('');
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<
+    "" | "Pending" | "Completed"
+  >("");
   const [showForm, setShowForm] = useState<boolean>(false);
   const [newTask, setNewTask] = useState<Task>({
     id: 0,
-    title: '',
-    status: 'Pending',
-    priority: 'Low',
+    title: "",
+    status: "Pending",
+    priority: "Low",
   });
 
   const filteredTasks = tasks
-    .filter((task) => task.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    .filter((task) =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     .filter((task) => (statusFilter ? task.status === statusFilter : true));
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High':
-        return '#f44336';
-      case 'Medium':
-        return '#ffa726'; 
-      case 'Low':
-        return '#66bb6a'; 
+      case "High":
+        return "#f44336";
+      case "Medium":
+        return "#ffa726";
+      case "Low":
+        return "#66bb6a";
       default:
-        return '#ccc'; 
+        return "#ccc";
     }
   };
 
   const markAsCompleted = (id: number) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        task.id === id && task.status === 'Pending'
-          ? { ...task, status: 'Completed' }
+        task.id === id && task.status === "Pending"
+          ? { ...task, status: "Completed" }
           : task
       )
     );
@@ -78,7 +92,7 @@ const TaskList: React.FC = () => {
       { ...newTask, id: prevTasks.length + 1 },
     ]);
     setShowForm(false); // Close the form
-    setNewTask({ id: 0, title: '', status: 'Pending', priority: 'Low' }); // Reset form
+    setNewTask({ id: 0, title: "", status: "Pending", priority: "Low" }); // Reset form
   };
 
   return (
@@ -104,7 +118,9 @@ const TaskList: React.FC = () => {
 
         <select
           value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value as '' | 'Pending' | 'Completed')}
+          onChange={(e) =>
+            setStatusFilter(e.target.value as "" | "Pending" | "Completed")
+          }
           className="dropdown-filter"
         >
           <option value="">All Statuses</option>
@@ -152,7 +168,14 @@ const TaskList: React.FC = () => {
 
       {/* Task List */}
       {filteredTasks.length > 0 ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "15px",
+            justifyContent: "center",
+          }}
+        >
           {filteredTasks.map((task) => (
             <div
               key={task.id}
@@ -170,7 +193,7 @@ const TaskList: React.FC = () => {
               </p>
 
               {/* "Mark as Completed" Button */}
-              {task.status === 'Pending' && (
+              {task.status === "Pending" && (
                 <button
                   className="mark-completed-btn"
                   onClick={() => markAsCompleted(task.id)}
@@ -180,7 +203,10 @@ const TaskList: React.FC = () => {
               )}
 
               {/* "Delete" Button */}
-              <button className="delete-btn" onClick={() => deleteTask(task.id)}>
+              <button
+                className="delete-btn"
+                onClick={() => deleteTask(task.id)}
+              >
                 Delete
               </button>
             </div>
